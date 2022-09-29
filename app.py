@@ -2,7 +2,6 @@
 # visit http://127.0.0.1:8050/ in your web browser.
 
 from dash import Dash, html, dcc, dash_table
-import dash_bootstrap_components as dbc
 import plotly.express as px
 import pandas as pd
 
@@ -122,11 +121,9 @@ app.layout = html.Div(
         ], style={'display': 'flex', 'flex-direction': 'row'}),
 
         html.Br(),
-        dbc.Row([
-            dbc.Col([
-                _make_fever_curve()
-            ], width=10)
-        ], align='center')
+        html.Div([
+            _make_fever_curve()
+        ])
     ]
 
 )
