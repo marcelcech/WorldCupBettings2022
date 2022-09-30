@@ -25,7 +25,7 @@ for name, tip, score in zip(name_cols, tip_cols, score_cols):
 played_matches = df[df['results'].notna()]
 upcoming_matches = df[df['results'].isna()]
 
-
+ 
 # -------------------------------------------- data import ends ------------------------------------------------- #
 
 # ------------------------------- defining plots and texts starts  ------------------------------------------------- #
