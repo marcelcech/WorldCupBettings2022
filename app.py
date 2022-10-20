@@ -72,8 +72,8 @@ def _print_last_games():
     return html.Div([
         html.H3("Last matches:"),
         html.Div([
-            html.Div([str(match) + ' with result ', str(int(result))]) for match, result in
-            zip(played_matches['match'].values[-4:], played_matches['results'].values[-4:])
+            html.Div([str(match) + ' with result ', str(result)]) for match, result in
+            zip(played_matches['match'].values[-5:], played_matches['clear text results'].values[-5:])
         ])
     ], style={'textAlign': 'center'})
 

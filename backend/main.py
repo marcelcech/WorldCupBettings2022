@@ -1,5 +1,5 @@
 import pandas as pd
-
+import numpy as np
 
 def _init_excel():
     df = pd.DataFrame(index=range(64), columns=['match', 'results', 'tip Marcel', 'score Marcel'])
@@ -36,7 +36,7 @@ def _update_excel():
 
     for tip, score in zip(tip_cols, score_cols):
         print('Short check', tip, score)
-        df[score] = (df['results'] - df[tip]) < 1e-9
+        df[score] = np.abs(df['results'] - df[tip]) < 1e-9
 
     df.to_excel('database.xlsx')
 
