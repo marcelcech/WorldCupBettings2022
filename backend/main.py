@@ -6,11 +6,27 @@ def _init_excel():
     df.to_excel('database_new.xlsx')
 
 
+def eval(result: str):
+    if type(result) == str:
+        result = result.split('-')
+        if result[0] > result[1]:
+            return 1
+        elif result[0] < result[1]:
+            return -1
+        else:
+            return 0
+    else:
+        return result
+
+
 def _update_excel():
     df = pd.read_excel('database.xlsx', index_col=0)
 
     tip_cols = []
     score_cols = []
+
+    # update results from real score
+    df['results'] = df['clear text results'].apply(eval)
 
     for col_name in df.columns:
         if 'tip' in col_name[:3]:
@@ -20,7 +36,7 @@ def _update_excel():
 
     for tip, score in zip(tip_cols, score_cols):
         print('Short check', tip, score)
-        df[score] = (df['results'] == df[tip])
+        df[score] = (df['results'] - df[tip]) < 1e-9
 
     df.to_excel('database.xlsx')
 
