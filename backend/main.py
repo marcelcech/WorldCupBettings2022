@@ -9,9 +9,9 @@ def _init_excel():
 def eval(result: str):
     if type(result) == str:
         result = result.split('-')
-        if result[0] > result[1]:
+        if int(result[0]) > int(result[1]):
             return 1
-        elif result[0] < result[1]:
+        elif int(result[0]) < int(result[1]):
             return -1
         else:
             return 0
