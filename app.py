@@ -6,6 +6,7 @@ import plotly.express as px
 import pandas as pd
 
 # -------------------------------------------- data import starts ------------------------------------------------- #
+# this will only happen once after app.py starts
 df = pd.read_excel("https://github.com/MCechgh/WorldCupBettings/blob/main/backend/database.xlsx?raw=true", index_col=0)
 
 tip_cols = []
