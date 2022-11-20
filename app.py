@@ -57,8 +57,10 @@ def _make_scoreboard():
                                                   name_cols]})
     curr_scores.sort_values('Score', ascending=False, inplace=True)
     curr_scores['Place'] = range(1, curr_scores.index.size + 1)
+    curr_scores['Place_ind'] = range(1, curr_scores.index.size + 1)
+    curr_scores.set_index('Place_ind', inplace=True)
 
-    for i in range(curr_scores.index.size - 1):
+    for i in range(1, curr_scores.index.size):
         if curr_scores.loc[i, 'Score'] == curr_scores.loc[i + 1, 'Score']:
             curr_scores.loc[i + 1, 'Place'] = curr_scores.loc[i, 'Place']
 
