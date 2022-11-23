@@ -35,7 +35,7 @@ def _update_excel():
             score_cols.append(col_name)
 
     for tip, score in zip(tip_cols, score_cols):
-        print('Short check', tip, score)
+        # print('Short check', tip, score)
         df[score] = np.abs(df['results'] - df[tip]) < 1e-9
 
     df.to_excel('database.xlsx')
@@ -43,3 +43,4 @@ def _update_excel():
 
 if __name__ == '__main__':
     _update_excel()
+    print("main.py for WorldCupBettings was successful!")

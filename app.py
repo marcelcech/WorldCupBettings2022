@@ -20,8 +20,8 @@ for col_name in df.columns:
     if 'score' in col_name[:5]:
         score_cols.append(col_name)
 
-for name, tip, score in zip(name_cols, tip_cols, score_cols):
-    print('Short check', name, tip, score)
+# for name, tip, score in zip(name_cols, tip_cols, score_cols):
+#     print('Short check', name, tip, score)
 
 played_matches = df[df['results'].notna()]
 upcoming_matches = df[df['results'].isna()]
