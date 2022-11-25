@@ -26,7 +26,7 @@ def _update_excel():
     score_cols = []
 
     # update results from real score
-    df['results'] = df['clear text results'].apply(eval)
+    df.loc[0:, 'results'] = df.loc[0:, 'clear text results'].apply(eval)
 
     for col_name in df.columns:
         if 'tip' in col_name[:3]:
@@ -36,7 +36,7 @@ def _update_excel():
 
     for tip, score in zip(tip_cols, score_cols):
         # print('Short check', tip, score)
-        df[score] = np.abs(df['results'] - df[tip]) < 1e-9
+        df.loc[0:, score] = np.abs(df.loc[1:, 'results'] - df.loc[0:, tip]) < 1e-9
 
     df.to_excel('database.xlsx')
 

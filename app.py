@@ -1,6 +1,6 @@
 # Run this app with `python app.py` and
 # visit http://127.0.0.1:8050/ in your web browser.
-
+import numpy as np
 from dash import Dash, html, dcc, dash_table
 import plotly.express as px
 import pandas as pd
@@ -26,12 +26,18 @@ for col_name in df.columns:
 played_matches = df[df['results'].notna()]
 upcoming_matches = df[df['results'].isna()]
 
- 
 # -------------------------------------------- data import ends ------------------------------------------------- #
 
 # ------------------------------- defining plots and texts starts  ------------------------------------------------- #
+
+weight_factor = np.ones(65)
+weight_factor[49:] = 2
+
+
 def _make_fever_curve():
-    fever_curve = df[score_cols].cumsum()
+    df_scores = df[score_cols].astype(int)
+    df_scores = pd.DataFrame(df_scores.to_numpy() * weight_factor.reshape((64, 1)), columns=df_scores.columns)
+    fever_curve = df_scores.cumsum()
     fever_curve.index += 1
     fever_curve.index.name = 'Match No.'
 
@@ -50,7 +56,10 @@ def _make_fever_curve():
 
 
 def _make_scoreboard():
-    curr_scores = df[score_cols].sum()
+    df_scores = df[score_cols].astype(int)
+    df_scores = pd.DataFrame(df_scores.to_numpy() * weight_factor.reshape((64, 1)), columns=df_scores.columns)
+
+    curr_scores = df_scores.sum()
     curr_scores = pd.DataFrame({'Name': name_cols, 'Score': curr_scores.values,
                                 'Last bets': [str(played_matches[f'tip {name}'].values[-4:]) for name in name_cols],
                                 'Upcoming bets': [str(upcoming_matches[f'tip {name}'].values[:4]) for name in
