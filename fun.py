@@ -42,9 +42,9 @@ def create_random_org_traj(with_add_points=False):
 
 # -------------------------------------------- data import starts ------------------------------------------------- #
 # this will only happen once after app.py starts
-df = pd.read_excel(  # "backend/database.xlsx",
-    "https://github.com/MCechgh/WorldCupBettings/blob/main/backend/database.xlsx?raw=true",
-    index_col=0)
+df = pd.read_excel("backend/database.xlsx",
+                   # "https://github.com/MCechgh/WorldCupBettings/blob/main/backend/database.xlsx?raw=true",
+                   index_col=0)
 
 tip_cols = []
 score_cols = []
@@ -111,11 +111,46 @@ def plot2():
     df_4prediction_with_factor2 = copy.copy(df_4prediction)
     df_4prediction_with_factor2.iloc[:, 1:] = df_4prediction_with_factor2.iloc[:, 1:] * 2
 
-    pred_score = df_4prediction.sum(axis=1).to_frame('pred_points')
+    prediction_dfs = [df_4prediction, df_4prediction_with_factor2]
+    result_df = pd.DataFrame(index=range(38))
+    pred_hists = pd.DataFrame(index=range(38))
 
-    pred_hist = pred_score.groupby('pred_points').size() / 20000
+    for i, df in enumerate(prediction_dfs):  # model different factors
+        pred_score = df.sum(axis=1).to_frame('pred_points')
 
-    a = 0
+        pred_hist = pred_score.groupby('pred_points').size() / 20000
+
+        pred_hists = pred_hists.join(pred_hist.to_frame(f'factor{i + 1}'))
+
+        P_catch_up_d_points = []
+
+        d_range = range(16 * (i + 1) + 5)
+        for d in d_range:
+            sum = 0
+            for points in pred_hist.index:
+                if points - d in pred_hist.index:
+                    sum += pred_hist[points] * (  # you get points
+                        (pred_hist[:points - d].sum())
+                    )
+            P_catch_up_d_points.append(sum)
+
+        result_df = result_df.join(pd.DataFrame(data=P_catch_up_d_points, index=d_range, columns=[f'factor_{i + 1}']))
+
+    fig0 = px.bar(pred_hists, x=pred_hists.index, y=pred_hists.columns, barmode='group',
+                  labels={"value": "Probability to get",
+                          "index": "this amount of additional points",
+                          "legend": "Factor for knockout-games"
+                          }, title="Additional points")
+
+    fig0.show()
+
+    fig = px.bar(result_df, x=result_df.index, y=result_df.columns, barmode='group',
+                 labels={"value": "Probability to catch up",
+                         "index": "this distance after group phase",
+                         "legend": "Factor for knockout-games"
+                         }, title="Who can overtake who?")
+
+    fig.show()
 
 
 if __name__ == '__main__':
