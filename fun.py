@@ -142,7 +142,7 @@ def plot2():
                           "legend": "Factor for knockout-games"
                           }, title="Additional points")
 
-    fig0.show()
+    fig0.write_html('fun2a.html')
 
     fig = px.bar(result_df, x=result_df.index, y=result_df.columns, barmode='group',
                  labels={"value": "Probability to catch up",
@@ -150,7 +150,7 @@ def plot2():
                          "legend": "Factor for knockout-games"
                          }, title="Who can overtake who?")
 
-    fig.show()
+    fig.write_html('fun2b.html')
 
 
 if __name__ == '__main__':
