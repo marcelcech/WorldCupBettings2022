@@ -87,7 +87,7 @@ def plot1():
         "variable": "Legend"
     }, title="Score evolution")
 
-    last_played_match = df[df['results'].notna()].index[-1] + 1
+    last_played_match = df[df['results'].notna()].index[-1]
     fig.add_vline(x=last_played_match + 1, annotation_text="last played match", annotation_position="bottom right")
 
     fig.write_html('fun1.html')
@@ -128,17 +128,16 @@ def plot2():
         for d in d_range:
             sum = 0
             for points in pred_hist.index:
-                if points - d in pred_hist.index:
-                    sum += pred_hist[points] * (  # you get points
-                        (pred_hist[:points - d].sum())
-                    )
+                sum += pred_hist[points] * (  # you get points
+                    (pred_hist[pred_hist.index <= points - d].sum())
+                )
             P_catch_up_d_points.append(sum)
 
         result_df = result_df.join(pd.DataFrame(data=P_catch_up_d_points, index=d_range, columns=[f'factor_{i + 1}']))
 
     fig0 = px.bar(pred_hists, x=pred_hists.index, y=pred_hists.columns, barmode='group',
                   labels={"value": "Probability to get",
-                          "index": "this amount of additional points",
+                          "index": "this amount of points after the group-phase",
                           "legend": "Factor for knockout-games"
                           }, title="Additional points")
 
@@ -154,6 +153,6 @@ def plot2():
 
 
 if __name__ == '__main__':
-    # plot1()
+    plot1()
     # create_data_for_prediction()
     plot2()

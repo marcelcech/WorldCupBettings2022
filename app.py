@@ -38,7 +38,7 @@ def _make_fever_curve():
     df_scores = df[score_cols].astype(int)
     df_scores = pd.DataFrame(df_scores.to_numpy() * weight_factor.reshape((65, 1)), columns=df_scores.columns)
     fever_curve = df_scores.cumsum()
-    fever_curve.index += 1
+    # fever_curve.index += 1
     fever_curve.index.name = 'Match No.'
 
     fig = px.line(fever_curve, x=fever_curve.index, y=fever_curve.columns, labels={
@@ -48,7 +48,9 @@ def _make_fever_curve():
                   title="Score evolution")
 
     last_played_match = df[df['results'].notna()].index[-1] + 1
-    fig.add_vline(x=last_played_match + 1, annotation_text="last played match", annotation_position="bottom right")
+    fig.add_vline(x=last_played_match, annotation_text="last played match", annotation_position="bottom right")
+
+    fig.update_layout(height=1000)
 
     return dcc.Graph(
         figure=fig
@@ -135,7 +137,7 @@ app.layout = html.Div(
         html.Br(),
         html.Div([
             _make_fever_curve()
-        ])
+        ], style={'height': 12})
     ]
 
 )
