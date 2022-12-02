@@ -84,6 +84,7 @@ def plot1():
 
     fig = px.line(fever_curve, x=fever_curve.index, y=fever_curve.columns, labels={
         "value": "Score",
+        "index": "played matches",
         "variable": "Legend"
     }, title="Score evolution")
 
