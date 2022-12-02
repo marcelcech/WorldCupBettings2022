@@ -50,7 +50,7 @@ def _make_fever_curve():
     last_played_match = df[df['results'].notna()].index[-1] + 1
     fig.add_vline(x=last_played_match, annotation_text="last played match", annotation_position="bottom right")
 
-    fig.update_layout(height=1000)
+    fig.update_layout(height=600)
 
     return dcc.Graph(
         figure=fig
