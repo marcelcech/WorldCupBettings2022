@@ -1,6 +1,6 @@
 # WorldCupBettings
 
-This is a small Dashboard (programmed using Python) to collect some informations about our betting game.
+This is a small Dashboard (programmed using Python) to collect some information about our betting game.
 
 To start the Dashboard, please follow these steps:
 - (for the first installation only) Make sure, that pandas, dash, dash-bootstrap-components and plotly is installed.
